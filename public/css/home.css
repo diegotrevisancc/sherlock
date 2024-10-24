@@ -1,6 +1,7 @@
 .header {
   width: 100vw;
   height: 20vh;
+  background: #E9EED9;
 }
 
 body {
@@ -13,12 +14,37 @@ body {
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  gap: 16px;
+  gap: 32px;
   height: 640px;
   width: 100vw;
+  background: #E9EED9;
+}
+
+.home-cto {
+  color: #54473F;
 }
 
 .footer {
   width: 100vw;
   height: 20vh;
+  background: #54473F;
+  color: #E9EED9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.basic-text {
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.title {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 32px;
 }
