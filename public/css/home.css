@@ -1,3 +1,24 @@
-h1 {
-  color: red;
+.header {
+  width: 100vw;
+  height: 20vh;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  gap: 16px;
+  height: 640px;
+  width: 100vw;
+}
+
+.footer {
+  width: 100vw;
+  height: 20vh;
 }
