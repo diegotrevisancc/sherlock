@@ -17,3 +17,11 @@
     @apply max-w-7xl mx-auto;
   }
 }
+
+.search-suggestion {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  position: absolute;
+  color: black;
+}

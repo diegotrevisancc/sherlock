@@ -3,10 +3,48 @@ import { Search, Shield, AlertTriangle, BookOpen, Share2, TrendingUp, CheckCircl
 import { Link } from 'react-router-dom';
 
 function HomePage() {
+
+  const getAndCreateElement = (): HTMLElement[] => {
+    const suggestion = ['Jogo do Tigrinho', 'KTO', 'Esportes da Sorte', 'Phishing', 'o que é .bet?', 'Betano', 'Jogo do Macaco', 'Dr Deolane', 'Jogo do bicho', 'Blaze'];
+    const elements: HTMLElement[] = [];
+    suggestion.forEach(element => {
+        const content = document.createElement('a');
+        content.innerHTML = element;
+        content.style.display = 'block';
+        content.style.marginTop = '4px';
+        content.style.marginBottom = '4px';
+        content.style.marginLeft = '4px';
+        content.style.textAlign = 'left';
+        content.href = "#";
+        content.addEventListener('click', (event) => {
+          event.preventDefault(); 
+          renderModal();
+        });        
+        elements.push(content);
+    });
+    return elements;
+};
+
+const renderModal = () => {
+}
+
+const eraseSuggestions = () => {
+  const suggestionDiv: HTMLElement = document.querySelector('.search-suggestion') as HTMLElement;
+  suggestionDiv.style.visibility = 'hidden';  
+}
+
+  const getSuggestions = () => {
+    const suggestionDiv: HTMLElement = document.querySelector('.search-suggestion') as HTMLElement;
+    suggestionDiv.style.visibility = 'visible';
+    suggestionDiv.innerHTML = "";
+    const elements: HTMLElement[] = getAndCreateElement();
+    elements.forEach(element => suggestionDiv.appendChild(element));
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
       {/* Hero Section */}
-      <header className="relative overflow-hidden">
+      <header className="relative">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576267423048-15c0040fec78?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
         <nav className="relative z-10 container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
@@ -37,10 +75,15 @@ function HomePage() {
             <div className="relative w-full max-w-xl">
               <input
                 type="text"
+                onChange = {event => getSuggestions()}
+                onBlur={event => setTimeout(() => {
+                  eraseSuggestions();
+                }, 500)}
                 placeholder="Cole um link ou texto para verificar..."
-                className="w-full px-6 py-4 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-6 py-4 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 sherlock-search"
               />
               <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <div className='search-suggestion'></div>
             </div>
             <button className="whitespace-nowrap bg-emerald-500 text-white px-8 py-4 rounded-lg hover:bg-emerald-600 transition">
               Verificar Agora
