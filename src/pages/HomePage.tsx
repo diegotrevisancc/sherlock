@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, Shield, AlertTriangle, BookOpen, Share2, TrendingUp, CheckCircle, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import data from '../assets/mocks.json';
+
+interface mockedData { 
+  title: string,
+  description: string,
+  reliability: string
+  comments: string[]
+}
 
 function HomePage() {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState("");
+  const [mockedData, setMockedData] = useState({ title: '', comments: [''], description: '', reliability: '', })
+  
+  
+  useEffect(() => { const dataSelected = data.find(item => selectedSuggestion === item.title); if (dataSelected) { setMockedData({ title: dataSelected.title, comments: dataSelected.comments, description: dataSelected.description, reliability: dataSelected.reliability, }); } }, [selectedSuggestion]);
 
   const getAndCreateElement = (): HTMLElement[] => {
     const suggestion = ['Jogo do Tigrinho', 'KTO', 'Esportes da Sorte', 'Phishing', 'o que é .bet?', 'Betano', 'Jogo do Macaco', 'Dr Deolane', 'Jogo do bicho', 'Blaze'];
@@ -18,16 +32,18 @@ function HomePage() {
         content.href = "#";
         content.addEventListener('click', (event) => {
           event.preventDefault(); 
-          renderModal();
+          renderModal(content.innerHTML);
         });        
         elements.push(content);
     });
     return elements;
 };
 
-const renderModal = () => {
+const renderModal = (suggestion: string) => {
+  setOpenModal(true);
+  setSelectedSuggestion(suggestion);
+  eraseSuggestions();
 }
-
 const eraseSuggestions = () => {
   const suggestionDiv: HTMLElement = document.querySelector('.search-suggestion') as HTMLElement;
   suggestionDiv.style.visibility = 'hidden';  
@@ -63,6 +79,24 @@ const eraseSuggestions = () => {
             </button>
           </div>
         </nav>
+        
+        <div>
+        {openModal ?
+                <div id="modal" className="modal">
+                <div className="modal-header">
+                    <span>{mockedData.title}</span>
+                    <button className="close-button" onClick={() => setOpenModal(false)}>×</button>
+                </div>
+                <div className="modal-description">{mockedData.description}</div>
+                <div className="modal-reliability">{mockedData.reliability}</div>
+                <div className="comments">
+                    <div className="comment">{mockedData.comments[0]}</div>
+                    <div className="comment">{mockedData.comments[1]}</div>
+                    <div className="comment">{mockedData.comments[2]}</div>
+                </div>
+            </div>
+        : null}
+        </div>
 
         <div className="relative z-10 container mx-auto px-6 py-24 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
@@ -76,9 +110,6 @@ const eraseSuggestions = () => {
               <input
                 type="text"
                 onChange = {event => getSuggestions()}
-                onBlur={event => setTimeout(() => {
-                  eraseSuggestions();
-                }, 500)}
                 placeholder="Cole um link ou texto para verificar..."
                 className="w-full px-6 py-4 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 sherlock-search"
               />
@@ -91,7 +122,6 @@ const eraseSuggestions = () => {
           </div>
         </div>
       </header>
-
       {/* Features Section */}
       <section id="features" className="py-24 bg-slate-800/50">
         <div className="container mx-auto px-6">
